@@ -6,6 +6,7 @@ import (
 	"github.com/lian-rr/oath-service/model"
 )
 
+//Temporary DB xD
 var users map[string]model.User
 
 var tokens map[string]JWT

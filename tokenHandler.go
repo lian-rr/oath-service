@@ -2,10 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
-func isTokenValid(w http.ResponseWriter, r *http.Request) {
+func validate(w http.ResponseWriter, r *http.Request) {
 	params := getParams(r)
 
 	token := params["token"]
@@ -17,4 +18,13 @@ func isTokenValid(w http.ResponseWriter, r *http.Request) {
 	}
 
 	errorResponse("Provided token is not valid", http.StatusBadRequest, w)
+}
+
+func invalidate(w http.ResponseWriter, r *http.Request) {
+	params := getParams(r)
+
+	token := params["token"]
+	fmt.Printf("Deleting token with value: %s \n", token)
+	delete(tokens, token)
+	w.WriteHeader(http.StatusOK)
 }

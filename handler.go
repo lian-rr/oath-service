@@ -44,7 +44,8 @@ func startHandlers(r *mux.Router) {
 	fmt.Println("Starting handlers")
 	r.HandleFunc("/users/{id}", getUser).Methods("GET")
 	r.HandleFunc("/tokens", authenticate).Methods("POST")
-	r.HandleFunc("/tokens/{token}", isTokenValid).Methods("GET")
+	r.HandleFunc("/tokens/{token}", validate).Methods("GET")
+	r.HandleFunc("/tokens/{token}", invalidate).Methods("DELETE")
 }
 
 func errorResponse(m string, s int, w http.ResponseWriter) {
@@ -61,7 +62,7 @@ func getParams(r *http.Request) map[string]string {
  */
 func generateToken(u model.User) string {
 	now := time.Now().Unix()
-	return fmt.Sprintf("%s:%x", u.Id, now)
+	return fmt.Sprintf("%s%x", u.Id, now)
 }
 
 /*
